@@ -1,0 +1,90 @@
+.hello {
+  color: whitesmoke;
+  width: 68%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  flex-wrap: wrap;
+  background-color: #636363;
+  border-radius: 10px;
+  row-gap: 10px;
+  padding: 6px;
+  margin-top: 2%;
+  font-size: 18px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.keyBox {
+  background-color: #969696;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+}
+
+.keyBox:hover {
+  cursor: pointer;
+  background-color: rgb(179, 124, 231);
+}
+
+.keyBox p {
+  user-select: none;
+  margin: 0px;
+  margin: auto;
+}
+
+.textareaField {
+  display: block;
+  margin: auto;
+  margin-top: 2%;
+  width: 30%;
+  height: 100px;
+}
+
+.onClick {
+  animation-name: change;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards; 
+}
+
+@keyframes change {
+  from {
+    background-color: rgb(179, 124, 231);
+    transform: scale(1);
+  }
+  to {
+    background-color: blueviolet;
+    transform: scale(1.1);
+  }
+}
+
+#Space {
+  width: 46%;
+}
+
+#ShiftLeft {
+  width: 9%;
+  text-align: center;
+}
+
+#ShiftLeft, #ShiftRight, #ControlLeft, #ControlRight, #MetaLeft, #AltLeft, #AltRight, #CapsLock, #Tab, #Enter, #Delete, #Backspace, #ArrowDown, #ArrowUp, #ArrowLeft, #ArrowRight {
+  background-color: #3a3a3a;
+  font-weight: 700;
+}
+
+#ShiftLeft:hover, #ShiftRight:hover, #ControlLeft:hover, #ControlRight:hover, #MetaLeft:hover, #AltLeft:hover, #AltRight:hover, #CapsLock:hover, #Tab:hover, #Enter:hover, #Delete:hover, #Backspace:hover, #ArrowDown:hover, #ArrowUp:hover, #ArrowLeft:hover, #ArrowRight:hover {
+  background-color: rgb(179, 124, 231);
+}
+
+#ShiftLeft, #CapsLock, #Backspace {
+  width: 110px;
+}
+
+#Enter, #ShiftRight {
+  width: 112px;
+}
