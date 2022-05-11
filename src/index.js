@@ -112,7 +112,7 @@ function textArea() {
 function how() {
   let element = document.createElement('div');
   element.id = 'short';
-  element.innerHTML = '<p>Shortcut for changing language: Shift + Alt</p>';
+  element.innerHTML = '<p>The keyboard is made on Windows OS<br>Shortcut for changing language: Shift + Alt</p>';
   return element;
 }
 
