@@ -124,3 +124,4 @@ document.querySelector('body').append(textArea());
 document.querySelector('body').append(board());
 document.querySelector('body').append(how());
 
+document.interestCohort();
