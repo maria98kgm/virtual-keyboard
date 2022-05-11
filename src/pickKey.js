@@ -1,5 +1,3 @@
-import shiftOne from "./shiftOne";
-
 let nowWatch = ['Delete','Shift','Win','Alt','Ctrl','CapsLock'];
 let start;
 export default function pickKey(text, key) {
@@ -15,9 +13,14 @@ export default function pickKey(text, key) {
   if (nowWatch.includes(key)) start--;
   else if (key == 'Enter') text.value = text.value.slice(0, start) + '\n' + text.value.slice(start, text.value.length);
   else if (key == 'Backspace') {
-    text.setSelectionRange(start, start);
-    text.value = text.value.slice(0, start-1) + text.value.slice(start, text.value.length);
-    start -= 2;
+    if (text.selectionStart == text.selectionEnd) {
+      text.value = text.value.slice(0, start-1) + text.value.slice(start, text.value.length);
+      start -= 2;
+    }
+    else {
+      text.value = text.value.slice(0, text.selectionStart) + text.value.slice(text.selectionEnd, text.value.length);
+      start--;
+    }
   }
   else if (key == 'Del') {
     text.value = text.value.slice(0, start) + text.value.slice(start + 1, text.value.length);

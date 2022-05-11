@@ -88,13 +88,17 @@ document.addEventListener('keydown', function(event) {
       board();
     }
   }
-  else if (event.key == 'Shift') shift(document.querySelector('.board'), code, shiftLang);
-  else if (event.key == 'CapsLock') {
+  if (event.key == 'Shift') shift(document.querySelector('.board'), code, shiftLang);
+  if (event.key == 'CapsLock') {
     if (document.querySelector(`#KeyK`).textContent == document.querySelector(`#KeyK`).textContent.toLowerCase()) caps(document.querySelector('.board'), code, lang, true);
     else {
       caps(document.querySelector('.board'), code, lang);
       document.querySelector(`#${event.code}`).classList.remove('onClick');
     }
+  }
+  else if (event.key == 'Tab') {
+    event.preventDefault();
+    pickKey(document.querySelector('#area'), 'Tab');
   }
 })
 
@@ -105,7 +109,7 @@ document.addEventListener('keyup', function(event) {
 
 function textArea() {
   let area = document.createElement('textarea');
-  area.id = 'area'
+  area.id = 'area';
   return area;
 }
 
@@ -119,3 +123,4 @@ function how() {
 document.querySelector('body').append(textArea());
 document.querySelector('body').append(board());
 document.querySelector('body').append(how());
+
