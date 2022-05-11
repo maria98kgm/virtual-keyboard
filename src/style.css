@@ -1,4 +1,4 @@
-.hello {
+.board {
   color: whitesmoke;
   width: 68%;
   display: flex;
@@ -38,7 +38,7 @@
   margin: auto;
 }
 
-.textareaField {
+textarea {
   display: block;
   margin: auto;
   margin-top: 2%;
@@ -87,4 +87,12 @@
 
 #Enter, #ShiftRight {
   width: 112px;
+}
+
+#short {
+  margin: auto;
+  margin-top: 2%;
+  display: flex;
+  font-size: 18px;
+  justify-content: center;
 }

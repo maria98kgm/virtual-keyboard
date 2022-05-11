@@ -1,5 +1,7 @@
 import './style.css';
 import pickKey from './pickKey.js';
+import shift from './shiftOne.js';
+import caps from './caps.js';
 
 let engKeys = [['`','1','2','3','4','5','6','7','8','9','0','-','=','Backspace'], ['Tab','q','w','e','r','t','y','u','i','o','p','[',']','\\','Del'], ['CapsLock','a','s','d','f','g','h','j','k','l',';','\'','Enter'], ['Shift','z','x','c','v','b','n','m',',','.','/','▲','Shift'], ['Ctrl','Win','Alt','','Alt','◄','▼','►','Ctrl']];
 
@@ -11,124 +13,109 @@ let shiftRusKeys = [['Ё','!','@','#','$','%','^','&','*','(',')','_','+','Backs
 
 let code = [['Backquote','Digit1','Digit2','Digit3','Digit4','Digit5','Digit6','Digit7','Digit8','Digit9','Digit0','Minus', 'Equal', 'Backspace'], ['Tab','KeyQ','KeyW','KeyE','KeyR','KeyT','KeyY','KeyU','KeyI','KeyO','KeyP','BracketLeft','BracketRight','Backslash', 'Delete'], ['CapsLock','KeyA','KeyS','KeyD','KeyF','KeyG','KeyH','KeyJ','KeyK','KeyL','Semicolon','Quote','Enter'], ['ShiftLeft','KeyZ','KeyX','KeyC','KeyV','KeyB','KeyN','KeyM','Comma','Period','Slash','ArrowUp','ShiftRight'], ['ControlLeft','MetaLeft','AltLeft','Space','AltRight','ArrowLeft','ArrowDown','ArrowRight','ControlRight']];
 
-let lang = engKeys;
-let shiftLang = shiftEngKeys;
+let lang;
+let shiftLang;
 
-function keyBored() {
-  const element = document.createElement('div');
-
-  for (let i in lang) {
-    const row = document.createElement('div');
-    row.classList.add('row')
-    for (let j in lang[i]) {
-      row.insertAdjacentHTML('beforeend', `<div class="keyBox" id="${code[i][j]}"><p>${lang[i][j]}</p></div>`);
-    }
-    element.append(row);
+function board() {
+  if (localStorage.getItem('rus') == 'true') {
+    lang = rusKeys;
+    shiftLang = shiftRusKeys;
   }
-
-  element.classList.add('hello');
-  element.id = 'forlop';
-
-  setTimeout(() => {
-    let keys = document.querySelectorAll('.keyBox');
-    for (let i = 0; i < keys.length; i++) {
-      if (keys[i].textContent !== 'CapsLock' && keys[i].textContent !== 'Shift') {
-        keys[i].addEventListener("mousedown", function() {
-          let el = keys[i];
-          document.querySelector('textarea').innerHTML = pickKey(document.querySelector('textarea').textContent, el.textContent);
-          document.querySelector(`#${el.id}`).classList.add('onClick');
+  else {
+    lang = engKeys;
+    shiftLang = shiftEngKeys;
+  }
+  let boardCont = document.createElement('div');
+  boardCont.classList.add('board');
+  for (let i in lang) {
+    let row = document.createElement('div');
+    row.classList.add('row');
+    for (let j in lang[i]) {
+      let key = document.createElement('div');
+      let text = document.querySelector('#area');
+      key.id = code[i][j];
+      key.classList.add('keyBox');
+      key.innerHTML = `<p>${lang[i][j]}</p>`;
+      if (key.textContent == 'Shift') {
+        key.addEventListener('mousedown', () => {
+          document.querySelector(`#${key.id}`).classList.add('onClick');
+          shift(document.querySelector('.board'), code, shiftLang);
         });
-        keys[i].addEventListener("mouseup", function() {
-          let el = keys[i];
-          document.querySelector(`#${el.id}`).classList.remove('onClick');
+        key.addEventListener('mouseup', () => {
+          document.querySelector(`#${key.id}`).classList.remove('onClick');
+          shift(document.querySelector('.board'), code, lang);
+        });
+      }
+      else if (key.textContent == 'CapsLock') {
+        key.addEventListener('mousedown', () => {
+          if (document.querySelector(`#${key.id}`).classList.contains('onClick')) {
+            document.querySelector(`#${key.id}`).classList.remove('onClick');
+            caps(document.querySelector('.board'), code, lang);
+          }
+          else {
+            document.querySelector(`#${key.id}`).classList.add('onClick');
+            caps(document.querySelector('.board'), code, lang, true);
+          }
         });
       }
       else {
-        if (keys[i].textContent == 'Shift') {
-          let el = keys[i];
-          el.addEventListener("mousedown", function() {
-            document.querySelector(`#${el.id}`).classList.add('onClick');
-            let board = document.querySelector(`#forlop`).querySelectorAll('.row');
-            for (let i = 0; i < board.length; i++) {
-              let rowElms = board[i].querySelectorAll('.keyBox');
-              for (let j = 0; j < rowElms.length; j++) {
-                rowElms[j].querySelector('p').textContent = shiftLang[i][j];
-              }
-            }
-          });
-          el.addEventListener("mouseup", function() {
-            document.querySelector(`#${el.id}`).classList.remove('onClick');
-            let board = document.querySelector(`#forlop`).querySelectorAll('.row');
-            for (let i = 0; i < board.length; i++) {
-              let rowElms = board[i].querySelectorAll('.keyBox');
-              for (let j = 0; j < rowElms.length; j++) {
-                rowElms[j].querySelector('p').textContent = lang[i][j];
-              }
-            }
-          });
-        }
-        else if (keys[i].textContent == 'CapsLock') {
-          let el = keys[i];
-          el.addEventListener("mousedown", function() {
-            if (el.classList.contains('onClick')) {
-              document.querySelector(`#${el.id}`).classList.remove('onClick');
-              let board = document.querySelector(`#forlop`).querySelectorAll('.row');
-              for (let i = 0; i < board.length; i++) {
-                let rowElms = board[i].querySelectorAll('.keyBox');
-                for (let j = 0; j < rowElms.length; j++) {
-                  let pep = rowElms[j].querySelector('p');
-                  if (pep.textContent.length == 1) pep.textContent = pep.textContent.toLowerCase();
-                }
-              }
-            }
-            else {
-              document.querySelector(`#${el.id}`).classList.add('onClick');
-              let board = document.querySelector(`#forlop`).querySelectorAll('.row');
-              for (let i = 0; i < board.length; i++) {
-                let rowElms = board[i].querySelectorAll('.keyBox');
-                for (let j = 0; j < rowElms.length; j++) {
-                  let pep = rowElms[j].querySelector('p');
-                  if (pep.textContent.length == 1) pep.textContent = pep.textContent.toUpperCase();
-                }
-              }
-            }
-          });
-        }
+        key.addEventListener('mousedown', () => {
+          document.querySelector(`#${key.id}`).classList.add('onClick');
+          pickKey(text, key.textContent)
+        }); 
+        key.addEventListener('mouseup', () => {
+          document.querySelector(`#${key.id}`).classList.remove('onClick');
+        });
       }
+      row.append(key);
     }
-  }, 200);
-
-  return element;
-}
-
-function textArea() {
-  let element = document.createElement('textarea');
-  element.classList.add('textareaField');
-
-  return element;
+    boardCont.append(row);
+  }
+  return boardCont;
 }
 
 document.addEventListener('keydown', function(event) {
+  let text = document.querySelector('#area');
   if (document.querySelector(`#${event.code}`)) document.querySelector(`#${event.code}`).classList.add('onClick');
-  if (event.ctrlKey && event.altKey) {
+  setTimeout(() => text.focus(), 50);
+  if (event.shiftKey && event.altKey) {
     if (lang == engKeys) {
-      lang = rusKeys;
-      shiftLang = shiftRusKeys;
-      let toReplace = document.querySelector('#forlop');
-      let replaced = keyBored();
-      toReplace.parentNode.replaceChild(replaced, toReplace);
-    } else {
-      lang = engKeys;
-      shiftLang = shiftEngKeys;
-      let toReplace = document.querySelector('#forlop');
-      let replaced = keyBored();
-      toReplace.parentNode.replaceChild(replaced, toReplace);
+      localStorage.setItem('rus', true);
+      board();
+    }
+    else {
+      localStorage.setItem('rus', false);
+      board();
     }
   }
-  document.querySelector('textarea').innerHTML = pickKey(document.querySelector('textarea').textContent, event.key);
-});
+  else if (event.key == 'Shift') shift(document.querySelector('.board'), code, shiftLang);
+  else if (event.key == 'CapsLock') {
+    if (document.querySelector(`#KeyK`).textContent == document.querySelector(`#KeyK`).textContent.toLowerCase()) caps(document.querySelector('.board'), code, lang, true);
+    else {
+      caps(document.querySelector('.board'), code, lang);
+      document.querySelector(`#${event.code}`).classList.remove('onClick');
+    }
+  }
+})
+
 document.addEventListener('keyup', function(event) {
-  if (document.querySelector(`#${event.code}`)) document.querySelector(`#${event.code}`).classList.remove('onClick');
-});
-document.body.appendChild(textArea());
-document.body.appendChild(keyBored());
+  if (document.querySelector(`#${event.code}`) && event.key !== 'CapsLock') document.querySelector(`#${event.code}`).classList.remove('onClick');
+  if (event.key == 'Shift') shift(document.querySelector('.board'), code, lang);
+})
+
+function textArea() {
+  let area = document.createElement('textarea');
+  area.id = 'area'
+  return area;
+}
+
+function how() {
+  let element = document.createElement('div');
+  element.id = 'short';
+  element.innerHTML = '<p>Shortcut for changing language: Shift + Alt</p>';
+  return element;
+}
+
+document.querySelector('body').append(textArea());
+document.querySelector('body').append(board());
+document.querySelector('body').append(how());
