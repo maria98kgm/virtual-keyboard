@@ -12,7 +12,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      hash: true,
       title: 'Virtual-keybored',
+      template: './src/costume.html',
+      filename: './index.html'
     }),
   ],
   output: {
