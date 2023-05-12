@@ -1,35 +1,35 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.js',
-  devtool: 'inline-source-map',
+  entry: "./src/index.js",
+  devtool: "inline-source-map",
   devServer: {
-    static: './dist',
+    static: "./dist",
   },
   optimization: {
-    runtimeChunk: 'single',
+    runtimeChunk: "single",
   },
   plugins: [
     new HtmlWebpackPlugin({
       hash: true,
-      title: 'Virtual-keybored',
-      template: './src/costume.html',
-      filename: './index.html'
+      title: "Virtual-keybored",
+      template: "./src/costume.html",
+      filename: "./index.html",
     }),
   ],
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  mode: 'development',
+  mode: "development",
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
-}
+};
